@@ -9,7 +9,7 @@ on:
     tags-ignore: [ '*' ]
 
 jobs:
-  manifests:
+  deploy:
     runs-on: arc-runner-set
     steps:
       - name: Checkout
