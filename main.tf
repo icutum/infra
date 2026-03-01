@@ -1,7 +1,3 @@
-data "local_file" "ssh_public_key" {
-  filename = pathexpand("~/.ssh/id_ed25519.pub")
-}
-
 resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
   content_type = "import"
   datastore_id = "local"
@@ -68,7 +64,7 @@ resource "proxmox_virtual_environment_vm" "template_debian" {
     }
 
     user_account {
-      keys     = [trimspace(data.local_file.ssh_public_key.content)]
+      keys     = [var.ssh_public_key]
       username = "mario"
     }
   }
