@@ -12,11 +12,14 @@ jobs:
   deploy:
     runs-on: arc-runner-set
     steps:
+      - name: Check Node in runner
+        run: |
+          echo "PATH=$PATH"
+          which node || echo "Node is missing"
+          node --version || echo "Cannot run node"
+
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v4
