@@ -74,7 +74,6 @@ resource "proxmox_virtual_environment_vm" "vm_web_1" {
   name      = "vm-web-1"
   node_name = "pve"
   vm_id     = 101
-  on_boot   = false
 
   clone {
     vm_id = proxmox_virtual_environment_vm.template_debian.id
