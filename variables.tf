@@ -10,7 +10,7 @@ variable "proxmox_api_token" {
 }
 
 variable "ssh_public_key" {
-  type = string
+  type        = string
   description = "The public SSH key for accessing the VMs"
-  sensitive = true
+  sensitive   = true
 }
