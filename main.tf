@@ -1,3 +1,47 @@
+locals {
+  vms = {
+    vm-web-1 = {
+      id     = 101
+      cores  = 2
+      memory = 4096
+      disk   = 32
+      ip     = "192.168.1.3/24"
+    }
+
+    vm-web-2 = {
+      id     = 102
+      cores  = 2
+      memory = 4096
+      disk   = 32
+      ip     = "192.168.1.4/24"
+    }
+
+    vm-web-3 = {
+      id     = 103
+      cores  = 2
+      memory = 4096
+      disk   = 32
+      ip     = "192.168.1.5/24"
+    }
+
+    vm-web-4 = {
+      id     = 104
+      cores  = 4
+      memory = 8192
+      disk   = 128
+      ip     = "192.168.1.6/24"
+    }
+
+    vm-web-5 = {
+      id     = 105
+      cores  = 4
+      memory = 8192
+      disk   = 128
+      ip     = "192.168.1.7/24"
+    }
+  }
+}
+
 resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
   content_type = "import"
   datastore_id = "local"
@@ -34,8 +78,6 @@ resource "proxmox_virtual_environment_vm" "template_debian" {
   disk {
     import_from = proxmox_virtual_environment_download_file.debian_cloud_image.id
     interface   = "scsi0"
-    iothread    = true
-    discard     = "on"
     size        = 32
   }
 
@@ -70,207 +112,21 @@ resource "proxmox_virtual_environment_vm" "template_debian" {
   }
 }
 
-resource "proxmox_virtual_environment_vm" "vm_web_1" {
-  name      = "vm-web-1"
-  node_name = "pve"
-  vm_id     = 101
+module "vm" {
+  source = "./modules/vm"
 
-  clone {
-    vm_id = proxmox_virtual_environment_vm.template_debian.id
-  }
+  for_each = local.vms
 
-  agent {
-    enabled = true
-  }
+  node_name   = "pve"
+  template_id = proxmox_virtual_environment_vm.template_debian.id
 
-  cpu {
-    cores = 2
-    type  = "x86-64-v2-AES"
-  }
+  name   = each.key
+  vm_id  = each.value.id
+  ip     = each.value.ip
+  cores  = each.value.cores
+  memory = each.value.memory
+  disk   = each.value.disk
 
-  memory {
-    dedicated = 4096
-  }
-
-  disk {
-    interface = "scsi0"
-    size      = 32
-  }
-
-  network_device {
-    firewall = true
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "192.168.1.3/24"
-        gateway = "192.168.1.1"
-      }
-    }
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "vm_web_2" {
-  name      = "vm-web-2"
-  node_name = "pve"
-  vm_id     = 102
-
-  clone {
-    vm_id = proxmox_virtual_environment_vm.template_debian.id
-  }
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores = 2
-    type  = "x86-64-v2-AES"
-  }
-
-  memory {
-    dedicated = 4096
-  }
-
-  disk {
-    interface = "scsi0"
-    size      = 32
-  }
-
-  network_device {
-    firewall = true
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "192.168.1.4/24"
-        gateway = "192.168.1.1"
-      }
-    }
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "vm_web_3" {
-  name      = "vm-web-3"
-  node_name = "pve"
-  vm_id     = 103
-
-  clone {
-    vm_id = proxmox_virtual_environment_vm.template_debian.id
-  }
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores = 2
-    type  = "x86-64-v2-AES"
-  }
-
-  memory {
-    dedicated = 4096
-  }
-
-  disk {
-    interface = "scsi0"
-    size      = 32
-  }
-
-  network_device {
-    firewall = true
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "192.168.1.5/24"
-        gateway = "192.168.1.1"
-      }
-    }
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "vm_web_4" {
-  name      = "vm-web-4"
-  node_name = "pve"
-  vm_id     = 104
-
-  clone {
-    vm_id = proxmox_virtual_environment_vm.template_debian.id
-  }
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores = 4
-    type  = "x86-64-v2-AES"
-  }
-
-  memory {
-    dedicated = 8192
-  }
-
-  disk {
-    interface = "scsi0"
-    size      = 128
-  }
-
-  network_device {
-    firewall = true
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "192.168.1.6/24"
-        gateway = "192.168.1.1"
-      }
-    }
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "vm_web_5" {
-  name      = "vm-web-5"
-  node_name = "pve"
-  vm_id     = 105
-
-  clone {
-    vm_id = proxmox_virtual_environment_vm.template_debian.id
-  }
-
-  agent {
-    enabled = true
-  }
-
-  cpu {
-    cores = 4
-    type  = "x86-64-v2-AES"
-  }
-
-  memory {
-    dedicated = 8192
-  }
-
-  disk {
-    interface = "scsi0"
-    size      = 128
-  }
-
-  network_device {
-    firewall = true
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "192.168.1.7/24"
-        gateway = "192.168.1.1"
-      }
-    }
-  }
+  gateway        = "192.168.1.1"
+  ssh_public_key = var.ssh_public_key
 }

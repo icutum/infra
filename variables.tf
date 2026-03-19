@@ -1,16 +1,16 @@
 variable "proxmox_api_url" {
   type        = string
-  description = "The endpoint of the Proxmox API"
+  description = "Base URL of the Proxmox server"
 }
 
 variable "proxmox_api_token" {
   type        = string
-  description = "The combination of user, realm and token ID to access the Proxmox API (Format: USER@REALM!TOKENID=UUID)"
+  description = "API token used to authenticate with Proxmox (Format: USER@REALM!TOKENID=UUID)"
   sensitive   = true
 }
 
 variable "ssh_public_key" {
   type        = string
-  description = "The public SSH key for accessing the VMs"
+  description = "SSH public key injected into the VM for remote access (cloud-init)"
   sensitive   = true
 }
