@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_vm" "this" {
         gateway = var.gateway
       }
     }
-    
+
     user_account {
       username = "mario"
       keys     = [var.ssh_public_key]
