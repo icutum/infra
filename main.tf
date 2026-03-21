@@ -1,43 +1,48 @@
 locals {
   vms = {
     vm-web-1 = {
-      id     = 101
-      cores  = 2
-      memory = 4096
-      disk   = 32
-      ip     = "192.168.1.3/24"
+      id            = 101
+      cores         = 2
+      memory        = 4096
+      disk          = 32
+      ip            = "192.168.1.3/24"
+      agent_enabled = true
     }
 
     vm-web-2 = {
-      id     = 102
-      cores  = 2
-      memory = 4096
-      disk   = 32
-      ip     = "192.168.1.4/24"
+      id            = 102
+      cores         = 2
+      memory        = 4096
+      disk          = 32
+      ip            = "192.168.1.4/24"
+      agent_enabled = true
     }
 
     vm-web-3 = {
-      id     = 103
-      cores  = 2
-      memory = 4096
-      disk   = 32
-      ip     = "192.168.1.5/24"
+      id            = 103
+      cores         = 2
+      memory        = 4096
+      disk          = 32
+      ip            = "192.168.1.5/24"
+      agent_enabled = true
     }
 
     vm-web-4 = {
-      id     = 104
-      cores  = 4
-      memory = 8192
-      disk   = 128
-      ip     = "192.168.1.6/24"
+      id            = 104
+      cores         = 4
+      memory        = 8192
+      disk          = 128
+      ip            = "192.168.1.6/24"
+      agent_enabled = true
     }
 
     vm-web-5 = {
-      id     = 105
-      cores  = 4
-      memory = 8192
-      disk   = 128
-      ip     = "192.168.1.7/24"
+      id            = 105
+      cores         = 4
+      memory        = 8192
+      disk          = 128
+      ip            = "192.168.1.7/24"
+      agent_enabled = true
     }
   }
 }
@@ -117,16 +122,18 @@ module "vm" {
 
   for_each = local.vms
 
-  node_name   = "pve"
-  template_id = proxmox_virtual_environment_vm.template_debian.id
+  name                     = each.key
+  node_name                = "pve"
+  vm_id                    = each.value.id
+  template_id              = proxmox_virtual_environment_vm.template_debian.id
+  qemu_guest_agent_enabled = each.value.agent_enabled
 
-  name   = each.key
-  vm_id  = each.value.id
-  ip     = each.value.ip
   cores  = each.value.cores
   memory = each.value.memory
   disk   = each.value.disk
 
-  gateway        = "192.168.1.1"
+  ip      = each.value.ip
+  gateway = "192.168.1.1"
+
   ssh_public_key = var.ssh_public_key
 }

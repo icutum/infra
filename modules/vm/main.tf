@@ -3,12 +3,16 @@ resource "proxmox_virtual_environment_vm" "this" {
   node_name = var.node_name
   vm_id     = var.vm_id
 
+  bios          = "ovmf"
+  machine       = "q35"
+  scsi_hardware = "virtio-scsi-single"
+
   clone {
     vm_id = var.template_id
   }
 
   agent {
-    enabled = true
+    enabled = var.qemu_guest_agent_enabled
   }
 
   cpu {
