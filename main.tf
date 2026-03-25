@@ -1,50 +1,18 @@
 locals {
-  vms = {
-    vm-web-1 = {
-      id            = 101
-      cores         = 2
-      memory        = 4096
-      disk          = 32
-      ip            = "192.168.1.3/24"
-      agent_enabled = true
-    }
-
-    vm-web-2 = {
-      id            = 102
-      cores         = 2
-      memory        = 4096
-      disk          = 32
-      ip            = "192.168.1.4/24"
-      agent_enabled = true
-    }
-
-    vm-web-3 = {
-      id            = 103
-      cores         = 2
-      memory        = 4096
-      disk          = 32
-      ip            = "192.168.1.5/24"
-      agent_enabled = true
-    }
-
-    vm-web-4 = {
-      id            = 104
-      cores         = 4
-      memory        = 8192
-      disk          = 128
-      ip            = "192.168.1.6/24"
-      agent_enabled = true
-    }
-
-    vm-web-5 = {
-      id            = 105
-      cores         = 4
-      memory        = 8192
-      disk          = 128
-      ip            = "192.168.1.7/24"
-      agent_enabled = true
-    }
+  vms_base = {
+    vm-web-1 = { vm_id = 101, ip = "192.168.1.3/24", size = "small", agent_enabled = true }
+    vm-web-2 = { vm_id = 102, ip = "192.168.1.4/24", size = "small", agent_enabled = true }
+    vm-web-3 = { vm_id = 103, ip = "192.168.1.5/24", size = "small", agent_enabled = true }
+    vm-web-4 = { vm_id = 104, ip = "192.168.1.6/24", size = "large", agent_enabled = true }
+    vm-web-5 = { vm_id = 105, ip = "192.168.1.7/24", size = "large", agent_enabled = true }
   }
+
+  sizes = {
+    small = { cores = 2, memory = 4096, disk = 32 }
+    large = { cores = 4, memory = 8192, disk = 128 }
+  }
+
+  vms = { for name, vm in local.vms_base : name => merge(vm, local.sizes[vm.size]) }
 }
 
 resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
@@ -118,13 +86,12 @@ resource "proxmox_virtual_environment_vm" "template_debian" {
 }
 
 module "vm" {
-  source = "./modules/vm"
-
+  source   = "./modules/vm"
   for_each = local.vms
 
   name                     = each.key
-  node_name                = "pve"
-  vm_id                    = each.value.id
+  node_name                = var.proxmox_node_name
+  vm_id                    = each.value.vm_id
   template_id              = proxmox_virtual_environment_vm.template_debian.id
   qemu_guest_agent_enabled = each.value.agent_enabled
 
@@ -133,7 +100,7 @@ module "vm" {
   disk   = each.value.disk
 
   ip      = each.value.ip
-  gateway = "192.168.1.1"
+  gateway = var.gateway_ip
 
   ssh_public_key = var.ssh_public_key
 }
