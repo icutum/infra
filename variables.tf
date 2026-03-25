@@ -9,6 +9,18 @@ variable "proxmox_api_token" {
   sensitive   = true
 }
 
+variable "proxmox_node_name" {
+  type        = string
+  description = "Name of the Proxmox node where the VMs will be created"
+  default     = "pve"
+}
+
+variable "gateway_ip" {
+  type        = string
+  description = "Default gateway IP address for the VM network"
+  default     = "192.168.1.1"
+}
+
 variable "ssh_public_key" {
   type        = string
   description = "SSH public key injected into the VM for remote access (cloud-init)"
