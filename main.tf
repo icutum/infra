@@ -15,7 +15,7 @@ locals {
   vms = { for name, vm in local.vms_base : name => merge(vm, local.sizes[vm.size]) }
 }
 
-resource "proxmox_virtual_environment_download_file" "debian_cloud_image" {
+resource "proxmox_download_file" "debian_cloud_image" {
   content_type = "import"
   datastore_id = "local"
   node_name    = "pve"
@@ -49,7 +49,7 @@ resource "proxmox_virtual_environment_vm" "template_debian" {
   }
 
   disk {
-    import_from = proxmox_virtual_environment_download_file.debian_cloud_image.id
+    import_from = proxmox_download_file.debian_cloud_image.id
     interface   = "scsi0"
     size        = 32
   }
