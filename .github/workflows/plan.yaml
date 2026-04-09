@@ -4,14 +4,14 @@ name: plan
 on:
   pull_request:
 
-permissions: {}
+# permissions: {}
 
 jobs:
   plan:
     name: Terraform Plan
     runs-on: arc-runner-set
-    permissions:
-      contents: read
+    # permissions:
+    #   contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
