@@ -3,6 +3,9 @@ name: plan
 
 on:
   pull_request:
+      paths:
+      - "**/*.tf"
+      - ".github/workflows/**"
 
 permissions: {}
 
