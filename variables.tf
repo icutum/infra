@@ -21,6 +21,12 @@ variable "gateway_ip" {
   default     = "192.168.1.1"
 }
 
+variable "vm_user_name" {
+  type        = string
+  description = "Default user account created via cloud-init on all VMs"
+  default     = "mario"
+}
+
 variable "ssh_public_key" {
   type        = string
   description = "SSH public key injected into the VM for remote access (cloud-init)"

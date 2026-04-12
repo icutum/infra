@@ -9,9 +9,9 @@ It clones a VM from an existing template and configures compute resources, disk,
 
 ## Requirements
 
-* Terraform >= 1.0
+* Terraform >= 1.14.8
 * A working Proxmox VE instance
-* `bpg/proxmox` provider >= 0.100.0
+* `bpg/proxmox` provider >= 0.101.1
 
 ---
 
@@ -34,6 +34,7 @@ module "vm" {
   ip             = "192.168.1.101/24"
   gateway        = "192.168.1.1"
 
+  user_name      = var.vm_user_name
   ssh_public_key = var.ssh_public_key
 }
 ```
@@ -54,4 +55,5 @@ module "vm" {
 | disk                     | number | 32      | Disk size for the virtual machine in GB                            |
 | ip                       | string | dhcp    | Static IPv4 address in CIDR format (e.g. 192.168.1.101/24)         |
 | gateway                  | string | n/a     | Default gateway IPv4 address                                       |
+| user_name                | string | n/a     | Default user account created via cloud-init                        |
 | ssh_public_key           | string | n/a     | SSH public key injected via cloud-init                             |

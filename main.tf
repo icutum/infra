@@ -15,74 +15,18 @@ locals {
   vms = { for name, vm in local.vms_base : name => merge(vm, local.sizes[vm.size]) }
 }
 
-resource "proxmox_download_file" "debian_cloud_image" {
-  content_type = "import"
-  datastore_id = "local"
-  node_name    = "pve"
-  url          = "https://cdimage.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
-  file_name    = "debian-13-generic-amd64.raw"
-}
+module "template" {
+  source = "./modules/template"
 
-resource "proxmox_virtual_environment_vm" "template_debian" {
   name      = "template-debian"
-  node_name = "pve"
+  node_name = var.proxmox_node_name
   vm_id     = 901
 
-  template = true
-  started  = false
+  image_url       = "https://cdimage.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
+  image_file_name = "debian-13-generic-amd64.raw"
 
-  bios          = "ovmf"
-  machine       = "q35"
-  scsi_hardware = "virtio-scsi-single"
-
-  operating_system {
-    type = "l26"
-  }
-
-  cpu {
-    cores = 2
-    type  = "x86-64-v2-AES"
-  }
-
-  memory {
-    dedicated = 2048
-  }
-
-  disk {
-    import_from = proxmox_download_file.debian_cloud_image.id
-    interface   = "scsi0"
-    size        = 32
-  }
-
-  efi_disk {
-    pre_enrolled_keys = true
-    type              = "4m"
-  }
-
-  vga {
-    type = "serial0"
-  }
-
-  serial_device {
-    device = "socket"
-  }
-
-  network_device {
-    firewall = true
-  }
-
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-
-    user_account {
-      keys     = [var.ssh_public_key]
-      username = "mario"
-    }
-  }
+  user_name      = var.vm_user_name
+  ssh_public_key = var.ssh_public_key
 }
 
 module "vm" {
@@ -92,7 +36,7 @@ module "vm" {
   name                     = each.key
   node_name                = var.proxmox_node_name
   vm_id                    = each.value.vm_id
-  template_id              = proxmox_virtual_environment_vm.template_debian.id
+  template_id              = module.template.vm_id
   qemu_guest_agent_enabled = each.value.agent_enabled
 
   cores  = each.value.cores
@@ -102,5 +46,6 @@ module "vm" {
   ip      = each.value.ip
   gateway = var.gateway_ip
 
+  user_name      = var.vm_user_name
   ssh_public_key = var.ssh_public_key
 }
