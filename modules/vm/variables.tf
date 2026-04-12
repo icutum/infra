@@ -53,6 +53,11 @@ variable "gateway" {
   description = "Default gateway IPv4 address for the virtual machine"
 }
 
+variable "user_name" {
+  type        = string
+  description = "Default user account created via cloud-init"
+}
+
 variable "ssh_public_key" {
   type        = string
   description = "SSH public key injected into the VM for remote access (cloud-init)"
