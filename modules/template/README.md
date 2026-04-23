@@ -8,9 +8,9 @@ This module provisions a virtual machine template with cloud-init in Proxmox usi
 
 ## Requirements
 
-* Terraform >= 1.14.8
+* Terraform >= 1.14.9
 * A working Proxmox VE instance
-* `bpg/proxmox` provider >= 0.101.1
+* `bpg/proxmox` provider >= 0.103.0
 
 ---
 
