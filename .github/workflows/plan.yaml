@@ -54,7 +54,7 @@ jobs:
       - name: Write PR comment
         uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: ${{ steps.plan.outputs.stdout }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -68,7 +68,7 @@ jobs:
               return comment.user.type === 'Bot' && comment.body.includes('Terraform Plan')
             })
 
-            const output = `#### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            const output = `#### Terraform Plan 📋\`
 
             <details><summary>Show Plan</summary>
 
