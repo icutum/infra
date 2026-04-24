@@ -5,7 +5,6 @@ locals {
     vm-web-3 = { vm_id = 103, ip = "192.168.1.5/24", size = "small", agent_enabled = true }
     vm-web-4 = { vm_id = 104, ip = "192.168.1.6/24", size = "large", agent_enabled = true }
     vm-web-5 = { vm_id = 105, ip = "192.168.1.7/24", size = "large", agent_enabled = true }
-    vm-web-6 = { vm_id = 106, ip = "192.168.1.8/24", size = "small", agent_enabled = false }
   }
 
   sizes = {
