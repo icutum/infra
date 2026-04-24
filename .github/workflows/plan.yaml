@@ -8,6 +8,7 @@ on:
       - ".github/workflows/**"
 
 permissions:
+  issues: write
   pull-requests: write
 
 jobs:
