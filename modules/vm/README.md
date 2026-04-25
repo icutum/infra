@@ -11,7 +11,7 @@ It clones a VM from an existing template and configures compute resources, disk,
 
 * Terraform >= 1.14.9
 * A working Proxmox VE instance
-* `bpg/proxmox` provider >= 0.103.0
+* `bpg/proxmox` provider >= 0.104.0
 
 ---
 
