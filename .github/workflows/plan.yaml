@@ -10,13 +10,12 @@ on:
 permissions: {}
 
 jobs:
-  plan:
+  terraform-plan:
     name: Terraform Plan
     runs-on: arc-runner-set
     environment: manual-approval
     permissions:
       contents: read
-      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -51,6 +50,12 @@ jobs:
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         run: terraform plan -no-color -input=false
 
+  comment-pr:
+    runs-on: ubuntu-slim
+    needs: plan
+    permissions:
+      pull-requests: write
+    steps:
       - name: Write PR comment
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
@@ -58,6 +63,16 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const output = `#### Terraform Plan 📋\
+
+            <details><summary>Click to expand plan output</summary>
+
+            \`\`\`
+            ${process.env.PLAN.trim()}
+            \`\`\`
+
+            </details>`
+
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -67,16 +82,6 @@ jobs:
             const botComment = comments.find(comment => {
               return comment.user.type === 'Bot' && comment.body.includes('Terraform Plan')
             })
-
-            const output = `#### Terraform Plan 📋\
-
-            <details><summary>Show Plan</summary>
-
-            \`\`\`
-            ${process.env.PLAN.trim()}
-            \`\`\`
-
-            </details>`
 
             if (botComment) {
               await github.rest.issues.updateComment({
