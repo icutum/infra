@@ -14,10 +14,9 @@ jobs:
     name: Terraform Plan
     runs-on: arc-runner-set
     environment: manual-approval
-    outputs:
-      plan: ${{ steps.plan.outputs.stdout }}
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -52,17 +51,10 @@ jobs:
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
         run: terraform plan -no-color -input=false
 
-  comment-pr:
-    name: Comment PR
-    runs-on: ubuntu-slim
-    needs: terraform-plan
-    permissions:
-      pull-requests: write
-    steps:
       - name: Write PR comment
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          PLAN: ${{ needs.terraform.outputs.plan }}
+          PLAN: ${{ steps.plan.outputs.stdout }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
