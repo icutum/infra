@@ -10,7 +10,7 @@ on:
 permissions: {}
 
 jobs:
-  plan:
+  terraform-plan:
     name: Terraform Plan
     runs-on: arc-runner-set
     environment: manual-approval
@@ -58,6 +58,16 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const output = `#### 📋 Terraform Plan Results\
+
+            <details><summary>Click to expand plan output</summary>
+
+            \`\`\`
+            ${process.env.PLAN.trim()}
+            \`\`\`
+
+            </details>`
+
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -67,16 +77,6 @@ jobs:
             const botComment = comments.find(comment => {
               return comment.user.type === 'Bot' && comment.body.includes('Terraform Plan')
             })
-
-            const output = `#### Terraform Plan 📋\
-
-            <details><summary>Show Plan</summary>
-
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-
-            </details>`
 
             if (botComment) {
               await github.rest.issues.updateComment({
