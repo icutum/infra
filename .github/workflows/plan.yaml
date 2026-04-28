@@ -52,7 +52,7 @@ jobs:
 
   comment-pr:
     runs-on: ubuntu-slim
-    needs: plan
+    needs: terraform-plan
     permissions:
       pull-requests: write
     steps:
