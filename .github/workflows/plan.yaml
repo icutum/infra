@@ -71,7 +71,11 @@ jobs:
             const output = `#### Terraform Plan 📋\
 
             <details><summary>Show Plan</summary>
-            <pre>${process.env.PLAN}</pre>
+
+            \`\`\`
+            ${process.env.PLAN.trim()}
+            \`\`\`
+
             </details>`
 
             if (botComment) {
