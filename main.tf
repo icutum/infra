@@ -1,15 +1,18 @@
 locals {
   vms_base = {
-    vm-web-1 = { vm_id = 101, ip = "192.168.1.3/24", size = "small", agent_enabled = true }
-    vm-web-2 = { vm_id = 102, ip = "192.168.1.4/24", size = "small", agent_enabled = true }
-    vm-web-3 = { vm_id = 103, ip = "192.168.1.5/24", size = "small", agent_enabled = true }
-    vm-web-4 = { vm_id = 104, ip = "192.168.1.6/24", size = "large", agent_enabled = true }
-    vm-web-5 = { vm_id = 105, ip = "192.168.1.7/24", size = "large", agent_enabled = true }
+    vm-web-1 = { vm_id = 101, ip = "192.168.1.3/24", size = "md", agent_enabled = true }
+    vm-web-2 = { vm_id = 102, ip = "192.168.1.4/24", size = "md", agent_enabled = true }
+    vm-web-3 = { vm_id = 103, ip = "192.168.1.5/24", size = "md", agent_enabled = true }
+    vm-web-4 = { vm_id = 104, ip = "192.168.1.6/24", size = "lg", agent_enabled = true }
+    vm-web-5 = { vm_id = 105, ip = "192.168.1.7/24", size = "lg", agent_enabled = true }
+
+    vm-dns-1 = { vm_id = 198, ip = "192.168.1.98/24", size = "sm", agent_enabled = false }
   }
 
   sizes = {
-    small = { cores = 2, memory = 4096, disk = 32 }
-    large = { cores = 4, memory = 8192, disk = 128 }
+    sm = { cores = 1, memory = 1024, disk = 32 }
+    md = { cores = 2, memory = 4096, disk = 32 }
+    lg = { cores = 4, memory = 8192, disk = 128 }
   }
 
   vms = { for name, vm in local.vms_base : name => merge(vm, local.sizes[vm.size]) }
