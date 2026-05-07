@@ -18,7 +18,7 @@ locals {
 module "template" {
   source = "./modules/template"
 
-  name      = "template-debian"
+  name      = "vm-template-debian-13"
   node_name = var.proxmox_node_name
   vm_id     = 901
 
