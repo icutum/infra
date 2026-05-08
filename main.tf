@@ -7,6 +7,7 @@ locals {
     vm-web-5 = { vm_id = 105, ip = "192.168.1.7/24", size = "lg", agent_enabled = true }
 
     vm-dns-1 = { vm_id = 198, ip = "192.168.1.98/24", size = "sm", agent_enabled = true }
+    vm-dns-2 = { vm_id = 199, ip = "192.168.1.99/24", size = "sm", agent_enabled = false }
   }
 
   sizes = {
