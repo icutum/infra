@@ -8,9 +8,9 @@ This module provisions a virtual machine template with cloud-init in Proxmox usi
 
 ## Requirements
 
-* Terraform >= 1.14.9
+* Terraform >= 1.15.3
 * A working Proxmox VE instance
-* `bpg/proxmox` provider >= 0.104.0
+* `bpg/proxmox` provider >= 0.106.0
 
 ---
 
@@ -46,3 +46,11 @@ module "template" {
 | image_file_name          | string | n/a     | File name for the downloaded cloud image                           |
 | user_name                | string | n/a     | Default user account created via cloud-init                        |
 | ssh_public_key           | string | n/a     | SSH public key injected via cloud-init                             |
+
+---
+
+## Outputs
+
+| Name                     | Description                                                        |
+| ------------------------ | ------------------------------------------------------------------ |
+| vm_id                    | The ID of the template VM, used as cloning source                  |

@@ -9,9 +9,9 @@ It clones a VM from an existing template and configures compute resources, disk,
 
 ## Requirements
 
-* Terraform >= 1.14.9
+* Terraform >= 1.15.3
 * A working Proxmox VE instance
-* `bpg/proxmox` provider >= 0.104.0
+* `bpg/proxmox` provider >= 0.106.0
 
 ---
 
