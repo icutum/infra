@@ -57,3 +57,13 @@ module "vm" {
 | gateway                  | string | n/a     | Default gateway IPv4 address                                       |
 | user_name                | string | n/a     | Default user account created via cloud-init                        |
 | ssh_public_key           | string | n/a     | SSH public key injected via cloud-init                             |
+
+---
+
+## Outputs
+
+| Name                     | Description                                                        |
+| ------------------------ | ------------------------------------------------------------------ |
+| cores                    | Number of CPU cores allocated to the virtual machine               |
+| memory                   | Amount of RAM allocated to the virtual machine in MB               |
+| disk                     | Disk size for the virtual machine in GB                            |
