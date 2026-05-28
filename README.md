@@ -2,24 +2,22 @@
 
 ## 📕 Overview
 
-This is a Terraform project that manages my Proxmox instance. It uses [Actions Runner Controller](https://docs.github.com/es/actions/concepts/runners/actions-runner-controller) to apply changes in my local network, and tries to mimic as much as possible a cloud environment
+Terraform project that manages my Proxmox homelab. It uses [Actions Runner Controller](https://docs.github.com/en/actions/concepts/runners/actions-runner-controller) to run workflows inside my local network, and aims to mirror a cloud-like IaC workflow as closely as possible
 
-The state is being shared and stored remotely in [HCP Terraform](https://developer.hashicorp.com/terraform/cloud-docs)
+Remote state is stored in [HCP Terraform](https://developer.hashicorp.com/terraform/cloud-docs)
 
-## ⚙️ Hardware
-
-My server consists of parts from my old gaming PC that I repurposed to tinker with Linux in general
-
-| CPU     | RAM   | Storage           | OS             |
-| ------- | ----- | ----------------- | -------------- |
-| 16C/32T | 64GiB | 1TB SSD / 2TB HDD | Proxmox VE 9.1 |
+---
 
 ## 🔐 Security
 
-Secrets are managed in GitHub Actions to execute plan and apply steps in the workflows
+Secrets are stored as GitHub Actions secrets and injected in the workflows to execute plan/apply steps
+
+---
 
 ## 🤖 Automation
 
-GitHub Actions plans the infrastructure changes when a pull request is created and automatically applies them when pushing to the main branch
+GitHub Actions handles the full Terraform lifecycle:
+- Pull request: `terraform plan` is run and the output is posted as a PR comment
+- Push to `main`: `terraform apply` is executed automatically
 
-[Renovate](https://github.com/renovatebot/renovate) scans the repository and opens pull requests for new provider versions
+[Renovate](https://github.com/renovatebot/renovate) monitors the repository and opens pull requests whenever new provider versions are released.
