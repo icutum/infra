@@ -23,5 +23,13 @@
       "extractVersionTemplate": "v?(?<version>.*)",
       "versioningTemplate": "semver"
     }
+  ],
+  "packageRules": [
+    {
+      "groupName": "Terraform",
+      "matchDepNames": [
+        "hashicorp/terraform"
+      ]
+    }
   ]
 }
