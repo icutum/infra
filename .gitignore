@@ -5,6 +5,11 @@
 *.tfstate
 *.tfstate.*
 
+# Environment variable files
+.env
+.env.*
+!.env.example
+
 # Crash log files
 crash.log
 crash.*.log

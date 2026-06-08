@@ -1,0 +1,15 @@
+---
+services:
+  terraform:
+    image: hashicorp/terraform:1.15.5@sha256:15bf5a08b1fb9c9747c8ff01098aeeefb4aec9a6c24eb13e7661bdf9447e4aee
+    container_name: terraform
+    user: "1000:1000"
+    environment:
+      - TF_TOKEN_app_terraform_io=${TF_TOKEN_app_terraform_io}
+    volumes:
+      - ./:/terraform
+    working_dir: /terraform
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
