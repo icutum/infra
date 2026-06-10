@@ -1,7 +1,7 @@
 ---
 services:
   terraform:
-    image: hashicorp/terraform:1.15.5@sha256:15bf5a08b1fb9c9747c8ff01098aeeefb4aec9a6c24eb13e7661bdf9447e4aee
+    image: hashicorp/terraform:1.15.6@sha256:adae45661e45d3c88beef071ee1277b4621cea73517aae7f0844657c8e85f641
     container_name: terraform
     user: "1000:1000"
     environment:
