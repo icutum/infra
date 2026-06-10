@@ -1,9 +1,11 @@
 resource "proxmox_download_file" "cloud_image" {
-  content_type = "import"
-  datastore_id = var.datastore_id
-  node_name    = var.node_name
-  url          = var.image_url
-  file_name    = var.image_file_name
+  content_type       = "import"
+  datastore_id       = var.datastore_id
+  file_name          = var.image_file_name
+  node_name          = var.node_name
+  url                = var.image_url
+  checksum           = var.image_checksum
+  checksum_algorithm = var.image_checksum_algorithm
 }
 
 resource "proxmox_virtual_environment_vm" "this" {

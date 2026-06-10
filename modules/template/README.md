@@ -43,6 +43,8 @@ module "template" {
 | datastore_id             | string | local   | Proxmox datastore used to store the cloud image                    |
 | image_url                | string | n/a     | URL of the cloud image to download                                 |
 | image_file_name          | string | n/a     | File name for the downloaded cloud image                           |
+| image_checksum           | string | n/a     | Checksum of the cloud image                                        |
+| image_checksum_algorithm | string | sha512  | Checksum algorithm                                                 |
 | user_name                | string | n/a     | Default user account created via cloud-init                        |
 | ssh_public_key           | string | n/a     | SSH public key injected via cloud-init                             |
 

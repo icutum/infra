@@ -29,6 +29,17 @@ variable "image_file_name" {
   description = "File name for the downloaded cloud image"
 }
 
+variable "image_checksum" {
+  type        = string
+  description = "Checksum of the cloud image"
+}
+
+variable "image_checksum_algorithm" {
+  type        = string
+  description = "Checksum algorithm"
+  default     = "sha512"
+}
+
 variable "user_name" {
   type        = string
   description = "Default user account created via cloud-init"
