@@ -26,7 +26,7 @@ module "template" {
   node_name = var.proxmox_node_name
   vm_id     = 901
 
-  image_url       = "https://cdimage.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
+  image_url       = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
   image_file_name = "debian-13-generic-amd64.raw"
   image_checksum  = "21413b82f1e519f7db60a9290d6929a20aa17baa0b62fde1b283b4afb04cfd70705c1af6c83f0cfd9c0a9a601fdafbd220efd70382b3615aae8a5f7f263f2ea6"
 
