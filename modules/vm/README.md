@@ -7,13 +7,6 @@ It clones a VM from an existing template and configures compute resources, disk,
 
 ---
 
-## Requirements
-
-* Terraform >= 1.15.5
-* `bpg/proxmox` provider >= 0.107.0
-
----
-
 ## Usage
 
 ```hcl

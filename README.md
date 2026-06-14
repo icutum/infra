@@ -13,15 +13,21 @@ Both `docker` and `make` are required for the local environment. All Terraform c
 Usage:
 
 ```bash
-$ make terraform <command>
+$ make terraform -- <command>
 ```
 
 The Makefile acts as a wrapper, so any Terraform subcommand can be called:
 
 ```bash
-$ make terraform init
-$ make terraform plan
-$ make terraform apply
+$ make terraform -- init
+$ make terraform -- plan
+$ make terraform -- apply
+```
+
+Add the required variables in the tfvars file:
+
+```bash
+$ cp terraform.tfvars.example terraform.tfvars
 ```
 
 As this project uses HCP Terraform as backend, you also have to add a HCP Terraform API token in the environment file:
