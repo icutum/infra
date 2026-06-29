@@ -49,6 +49,7 @@ jobs:
           TF_VAR_proxmox_api_url: ${{ secrets.PROXMOX_API_URL }}
           TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+          TF_VAR_checkmk_password: ${{ secrets.CHECKMK_PASSWORD }}
         run: terraform test -no-color
 
       - name: Terraform Plan
@@ -57,6 +58,7 @@ jobs:
           TF_VAR_proxmox_api_url: ${{ secrets.PROXMOX_API_URL }}
           TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+          TF_VAR_checkmk_password: ${{ secrets.CHECKMK_PASSWORD }}
         run: terraform plan -no-color -input=false
 
       - name: Write PR comment

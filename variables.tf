@@ -32,3 +32,9 @@ variable "ssh_public_key" {
   description = "SSH public key injected into the VM for remote access (cloud-init)"
   sensitive   = true
 }
+
+variable "checkmk_password" {
+  type        = string
+  description = "Password used for the pve Checkmk account needed to monitor Proxmox"
+  sensitive   = true
+}
