@@ -1,5 +1,6 @@
 resource "proxmox_download_file" "cloud_image" {
   content_type       = "import"
+  overwrite          = false
   datastore_id       = var.datastore_id
   file_name          = var.image_file_name
   node_name          = var.node_name
