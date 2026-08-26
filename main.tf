@@ -1,13 +1,14 @@
 locals {
   vms_base = {
-    vm-web-1 = { vm_id = 101, ip = "192.168.1.3/24", size = "md", agent_enabled = true }
-    vm-web-2 = { vm_id = 102, ip = "192.168.1.4/24", size = "md", agent_enabled = true }
-    vm-web-3 = { vm_id = 103, ip = "192.168.1.5/24", size = "md", agent_enabled = true }
-    vm-web-4 = { vm_id = 104, ip = "192.168.1.6/24", size = "lg", agent_enabled = true }
-    vm-web-5 = { vm_id = 105, ip = "192.168.1.7/24", size = "lg", agent_enabled = true }
+    110 = { name = "prod-dns-01", ip = "192.168.1.10/24", size = "sm", qemu_guest_agent_enabled = true }
+    111 = { name = "prod-dns-02", ip = "192.168.1.11/24", size = "sm", qemu_guest_agent_enabled = true }
 
-    vm-dns-1 = { vm_id = 198, ip = "192.168.1.98/24", size = "sm", agent_enabled = true }
-    vm-dns-2 = { vm_id = 199, ip = "192.168.1.99/24", size = "sm", agent_enabled = true }
+    120 = { name = "prod-server-01", ip = "192.168.1.20/24", size = "md", qemu_guest_agent_enabled = true }
+    121 = { name = "prod-server-02", ip = "192.168.1.21/24", size = "md", qemu_guest_agent_enabled = true }
+    122 = { name = "prod-server-03", ip = "192.168.1.22/24", size = "md", qemu_guest_agent_enabled = true }
+
+    130 = { name = "prod-agent-01", ip = "192.168.1.30/24", size = "lg", qemu_guest_agent_enabled = true }
+    131 = { name = "prod-agent-02", ip = "192.168.1.31/24", size = "lg", qemu_guest_agent_enabled = true }
   }
 
   sizes = {
@@ -22,9 +23,10 @@ locals {
 module "template" {
   source = "./modules/template"
 
-  name      = "vm-template-debian-13"
-  node_name = var.proxmox_node_name
   vm_id     = 901
+  node_name = var.proxmox_node_name
+
+  name      = "template-debian-13"
 
   image_url       = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
   image_file_name = "debian-13-generic-amd64.raw"
@@ -38,11 +40,12 @@ module "vm" {
   source   = "./modules/vm"
   for_each = local.vms
 
-  name                     = each.key
+  vm_id                    = each.key
   node_name                = var.proxmox_node_name
-  vm_id                    = each.value.vm_id
+
+  name                     = each.value.name
   template_id              = module.template.vm_id
-  qemu_guest_agent_enabled = each.value.agent_enabled
+  qemu_guest_agent_enabled = each.value.qemu_guest_agent_enabled
 
   cores  = each.value.cores
   memory = each.value.memory

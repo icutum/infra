@@ -24,7 +24,7 @@ variable "gateway_ip" {
 variable "vm_user_name" {
   type        = string
   description = "Default user account created via cloud-init on all VMs"
-  default     = "mario"
+  default     = "admin"
 }
 
 variable "ssh_public_key" {
