@@ -26,7 +26,7 @@ module "template" {
   vm_id     = 901
   node_name = var.proxmox_node_name
 
-  name      = "template-debian-13"
+  name = "template-debian-13"
 
   image_url       = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
   image_file_name = "debian-13-generic-amd64.raw"
@@ -40,8 +40,8 @@ module "vm" {
   source   = "./modules/vm"
   for_each = local.vms
 
-  vm_id                    = each.key
-  node_name                = var.proxmox_node_name
+  vm_id     = each.key
+  node_name = var.proxmox_node_name
 
   name                     = each.value.name
   template_id              = module.template.vm_id
