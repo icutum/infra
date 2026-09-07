@@ -41,7 +41,7 @@ module "vm" {
 | node_name                | string | n/a     | Proxmox node where the virtual machine will be created             |
 | vm_id                    | number | n/a     | Unique Proxmox VM identifier (must not conflict with existing VMs) |
 | template_id              | number | n/a     | VM ID of the Proxmox template used as the cloning source           |
-| qemu_guest_agent_enabled | bool   | true    | Whether to enable the QEMU guest agent inside the VM               |
+| qemu_guest_agent_enabled | bool   | false   | Whether to enable the QEMU guest agent inside the VM               |
 | cores                    | number | 2       | Number of CPU cores allocated to the virtual machine               |
 | memory                   | number | 2048    | Amount of RAM allocated to the virtual machine in MB               |
 | disk                     | number | 32      | Disk size for the virtual machine in GB                            |
