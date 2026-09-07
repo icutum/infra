@@ -21,7 +21,7 @@ variable "template_id" {
 variable "qemu_guest_agent_enabled" {
   type        = bool
   description = "Whether to enable the QEMU guest agent inside the VM"
-  default     = true
+  default     = false
 }
 
 variable "cores" {
