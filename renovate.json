@@ -31,6 +31,12 @@
       "matchDepNames": [
         "hashicorp/terraform"
       ]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["uses-with"],
+      "matchDepNames": ["terraform"],
+      "enabled": false
     }
   ]
 }
