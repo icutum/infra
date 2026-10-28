@@ -16,7 +16,6 @@ jobs:
     environment: manual-approval
     permissions:
       contents: read
-      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -54,51 +53,4 @@ jobs:
           TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
           TF_VAR_checkmk_password: ${{ secrets.CHECKMK_PASSWORD }}
-        run: terraform plan -no-color -input=false | tee "$RUNNER_TEMP/tfplan"
-
-      - name: Write PR comment
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const plan = require('fs')
-              .readFileSync(`${process.env.RUNNER_TEMP}/tfplan`, 'utf8')
-              .trim()
-
-            const output = `#### 📋 Terraform Plan Results\
-
-            <details><summary>Click to expand plan output</summary>
-
-            \`\`\`
-            ${plan}
-            \`\`\`
-
-            </details>`
-
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            })
-
-            const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes('Terraform Plan')
-            })
-
-            if (botComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: output
-              })
-
-              return
-            }
-
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: output
-            })
+        run: terraform plan -no-color -input=false
