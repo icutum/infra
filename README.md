@@ -40,7 +40,7 @@ $ vi .env
 
 ## Automation
 
-GitHub Actions runs `terraform plan` on pull requests and posts the output as a comment. Merging to `main` triggers `terraform apply` automatically
+GitHub Actions runs `terraform plan` on pull requests. Merging to `main` triggers `terraform apply` automatically
 
 [Renovate](https://github.com/renovatebot/renovate) monitors the repository and opens pull requests whenever new provider versions are released
 
