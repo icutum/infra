@@ -70,7 +70,7 @@ jobs:
             <details><summary>Click to expand plan output</summary>
 
             \`\`\`
-            ${process.env.PLAN.trim()}
+            ${plan}
             \`\`\`
 
             </details>`
