@@ -24,15 +24,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 1
 
-      - name: Setup Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
-        with:
-          node-version: "24.22.1"
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4
         with:
           terraform_version: "1.17.0"
+          terraform_wrapper: false
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Format
@@ -53,27 +49,28 @@ jobs:
         run: terraform test -no-color
 
       - name: Terraform Plan
-        id: plan
         env:
           TF_VAR_proxmox_api_url: ${{ secrets.PROXMOX_API_URL }}
           TF_VAR_proxmox_api_token: ${{ secrets.PROXMOX_API_TOKEN }}
           TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
           TF_VAR_checkmk_password: ${{ secrets.CHECKMK_PASSWORD }}
-        run: terraform plan -no-color -input=false
+        run: terraform plan -no-color -input=false | tee "$RUNNER_TEMP/tfplan"
 
       - name: Write PR comment
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
-        env:
-          PLAN: ${{ steps.plan.outputs.stdout }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const plan = require('fs')
+              .readFileSync(`${process.env.RUNNER_TEMP}/tfplan`, 'utf8')
+              .trim()
+
             const output = `#### 📋 Terraform Plan Results\
 
             <details><summary>Click to expand plan output</summary>
 
             \`\`\`
-            ${process.env.PLAN.trim()}
+            ${plan}
             \`\`\`
 
             </details>`
