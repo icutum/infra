@@ -1,7 +1,7 @@
 locals {
   templates = {
-    901 = { name = "template-debian-13", url = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw", file_name = "debian-13-amd64.raw", compression = null }
-    902 = { name = "template-talos-1.14.5", url = "https://factory.talos.dev/image/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba/v1.14.5/nocloud-amd64.raw.zst", file_name = "talos-1.14.5-amd64.raw", compression = "zst" }
+    901 = { name = "template-debian-13", url = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw", file_name = "debian-13-amd64.raw" }
+    902 = { name = "template-talos-1.14.5", url = "https://factory.talos.dev/image/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba/v1.14.5/nocloud-amd64.raw", file_name = "talos-1.14.5-amd64.raw" }
   }
 
   vms = {
@@ -32,9 +32,8 @@ module "template" {
 
   name = each.value.name
 
-  image_url               = each.value.url
-  image_file_name         = each.value.file_name
-  decompression_algorithm = each.value.compression
+  image_url       = each.value.url
+  image_file_name = each.value.file_name
 
   user_name      = var.vm_user_name
   ssh_public_key = var.ssh_public_key
