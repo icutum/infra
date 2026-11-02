@@ -18,7 +18,6 @@ module "template" {
 
   image_url       = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw"
   image_file_name = "debian-13-generic-amd64.raw"
-  image_checksum  = "21413b82f1e519f7db60a9290d6929a20aa17baa0b62fde1b283b4afb04cfd70705c1af6c83f0cfd9c0a9a601fdafbd220efd70382b3615aae8a5f7f263f2ea6"
 
   user_name      = var.vm_user_name
   ssh_public_key = var.ssh_public_key
@@ -37,8 +36,7 @@ module "template" {
 | datastore_id             | string | local   | Proxmox datastore used to store the cloud image                    |
 | image_url                | string | n/a     | URL of the cloud image to download                                 |
 | image_file_name          | string | n/a     | File name for the downloaded cloud image                           |
-| image_checksum           | string | n/a     | Checksum of the cloud image                                        |
-| image_checksum_algorithm | string | sha512  | Checksum algorithm                                                 |
+| decompression_algorithm  | string | null    | If the image is compressed, the algorithm to decompress it         |
 | user_name                | string | n/a     | Default user account created via cloud-init                        |
 | ssh_public_key           | string | n/a     | SSH public key injected via cloud-init                             |
 
