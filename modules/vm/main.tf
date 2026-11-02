@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   agent {
-    enabled = var.qemu_guest_agent_enabled
+    enabled = false
   }
 
   cpu {

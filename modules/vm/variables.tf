@@ -18,12 +18,6 @@ variable "template_id" {
   description = "VM ID of the Proxmox template used as the cloning source"
 }
 
-variable "qemu_guest_agent_enabled" {
-  type        = bool
-  description = "Whether to enable the QEMU guest agent inside the VM"
-  default     = false
-}
-
 variable "cores" {
   type        = number
   description = "Number of CPU cores allocated to the virtual machine"
