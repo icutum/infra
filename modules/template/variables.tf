@@ -29,12 +29,6 @@ variable "image_file_name" {
   description = "File name for the downloaded cloud image"
 }
 
-variable "decompression_algorithm" {
-  type        = string
-  description = "If the image is compressed, the algorithm to decompress it"
-  default     = null
-}
-
 variable "user_name" {
   type        = string
   description = "Default user account created via cloud-init"
