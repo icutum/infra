@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   efi_disk {
-    pre_enrolled_keys = true
+    pre_enrolled_keys = var.pre_enrolled_keys
     type              = "4m"
   }
 
