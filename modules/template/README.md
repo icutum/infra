@@ -28,15 +28,17 @@ module "template" {
 
 ## Inputs
 
-| Name            | Type   | Default | Description                                                        |
-| --------------- | ------ | ------- | ------------------------------------------------------------------ |
-| name            | string | n/a     | Hostname and display name assigned to the virtual machine          |
-| node_name       | string | n/a     | Proxmox node where the virtual machine will be created             |
-| vm_id           | number | n/a     | Unique Proxmox VM identifier (must not conflict with existing VMs) |
-| datastore_id    | string | local   | Proxmox datastore used to store the cloud image                    |
-| image_url       | string | n/a     | URL of the cloud image to download                                 |
-| image_file_name | string | n/a     | File name for the downloaded cloud image                           |
-| ssh_public_key  | string | n/a     | SSH public key injected via cloud-init                             |
+| Name              | Type   | Default | Description                                                        |
+| ----------------- | ------ | ------- | ------------------------------------------------------------------ |
+| name              | string | n/a     | Hostname and display name assigned to the virtual machine          |
+| node_name         | string | n/a     | Proxmox node where the virtual machine will be created             |
+| vm_id             | number | n/a     | Unique Proxmox VM identifier (must not conflict with existing VMs) |
+| datastore_id      | string | local   | Proxmox datastore used to store the cloud image                    |
+| image_url         | string | n/a     | URL of the cloud image to download                                 |
+| image_file_name   | string | n/a     | File name for the downloaded cloud image                           |
+| pre_enrolled_keys | bool   | false   | Whether the pre enrolled keys for secure boot are enabled or not   |
+| user_name         | string | n/a     | The default user created in the VM                                 |
+| ssh_public_key    | string | n/a     | SSH public key injected via cloud-init                             |
 
 ---
 

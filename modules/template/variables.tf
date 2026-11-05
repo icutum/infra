@@ -29,6 +29,12 @@ variable "image_file_name" {
   description = "File name for the downloaded cloud image"
 }
 
+variable "pre_enrolled_keys" {
+  type        = bool
+  description = "Whether the pre enrolled keys for secure boot are enabled or not"
+  default     = false
+}
+
 variable "user_name" {
   type        = string
   description = "Default user account created via cloud-init"

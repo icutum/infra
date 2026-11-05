@@ -1,7 +1,7 @@
 locals {
   templates = {
-    901 = { name = "template-debian-13", url = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw", file_name = "debian-13-amd64.raw" }
-    902 = { name = "template-talos-1.14.5", url = "https://factory.talos.dev/image/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba/v1.14.5/nocloud-amd64.raw", file_name = "talos-1.14.5-amd64.raw" }
+    901 = { name = "template-debian-13", url = "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-generic-amd64.raw", file_name = "debian-13-amd64.raw", pre_enrolled_keys = true }
+    902 = { name = "template-talos-1.14.5", url = "https://factory.talos.dev/image/9ed5fecdacb36b5c5427b87d409f1065cfb2df69b0f71c58b868d9d466d8dab3/v1.14.5/nocloud-amd64-secureboot.raw", file_name = "talos-1.14.5-amd64.raw", pre_enrolled_keys = false }
   }
 
   vms = {
@@ -14,8 +14,6 @@ locals {
 
     130 = { name = "prod-agent-01", ip = "192.168.1.30/24", size = "lg", template_id = 901 }
     131 = { name = "prod-agent-02", ip = "192.168.1.31/24", size = "lg", template_id = 901 }
-
-    140 = { name = "test-talos-01", ip = "192.168.1.40/24", size = "md", template_id = 902 }
   }
 
   sizes = {
@@ -34,8 +32,9 @@ module "template" {
 
   name = each.value.name
 
-  image_url       = each.value.url
-  image_file_name = each.value.file_name
+  image_url         = each.value.url
+  image_file_name   = each.value.file_name
+  pre_enrolled_keys = each.value.pre_enrolled_keys
 
   user_name      = var.vm_user_name
   ssh_public_key = var.ssh_public_key
