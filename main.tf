@@ -14,6 +14,8 @@ locals {
 
     130 = { name = "prod-agent-01", ip = "192.168.1.30/24", size = "lg", template_id = 901 }
     131 = { name = "prod-agent-02", ip = "192.168.1.31/24", size = "lg", template_id = 901 }
+
+    140 = { name = "test-talos-01", ip = "192.168.1.40/24", size = "md", template_id = 902 }
   }
 
   sizes = {
