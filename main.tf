@@ -50,7 +50,7 @@ module "vm" {
   node_name = var.proxmox_node_name
 
   name        = each.value.name
-  template_id = each.value.template_id
+  template_id = module.template[each.value.template_id].vm_id
 
   cores  = local.sizes[each.value.size].cores
   memory = local.sizes[each.value.size].memory
